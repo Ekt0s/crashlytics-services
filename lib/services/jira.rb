@@ -16,6 +16,9 @@ class Service::Jira < Service::Base
          :label => 'Your Jira password:'
   string :issue_type, :placeholder => 'Bug', :required => false,
          :label => '(Optional) Issue Type:'
+  string :project_component_id, :placeholder => '10000',
+         :label => 'The component ID of your project, you want to assign the issues to'
+
 
   def initialize(config, logger = Proc.new {})
     super(config, logger)
@@ -86,7 +89,8 @@ class Service::Jira < Service::Base
         :description => description,
         :issuetype => {
           :name => config[:issue_type] || 'Bug'
-        }
+        },
+        :components => { :id => :project_component_id }
       }
     }
 
